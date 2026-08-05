@@ -1,31 +1,12 @@
-import React from 'react'
 import { NavLink, useNavigate } from "react-router"
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { setUser } from "../app/features/authSlice";
 import { User, Mail, Lock, UserPlus } from 'lucide-react'; // Premium UI ke liye icons
+import { setUser } from "../../state/authSlice";
+import { useAuth } from "../../hooks/useAuthHook";
 
 const RegisterPage = () => {
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    
-    // Form handlers aur validation configuration
-    const { 
-        register, 
-        handleSubmit, 
-        reset, 
-        formState: { errors } 
-    } = useForm({
-        mode: "onTouched" // Real-time validation feedbacks ke liye
-    })
-
-    const formSubmit = (data) => {
-        // console.log("Registering User: ", data); // Verification ke liye optional
-        dispatch(setUser(data))
-        reset();
-        navigate("/")
-    }
-
+    const { navigate, register, handleSubmit, reset, errors, registerFormHook } = useAuth();
   return (
     <div className="flex bg-gray-800 justify-center items-center py-8 min-h-screen">
         
@@ -42,7 +23,7 @@ const RegisterPage = () => {
             </div>
 
             {/* Registration Form */}
-            <form onSubmit={handleSubmit(formSubmit)} className="space-y-5">
+            <form onSubmit={handleSubmit(registerFormHook)} className="space-y-5">
                 
                 {/* Name Input Group */}
                 <div className="space-y-1.5">

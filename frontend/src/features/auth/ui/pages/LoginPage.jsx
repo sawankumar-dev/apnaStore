@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { setUser } from "../app/features/authSlice";
+import { setUser } from "../../state/authSlice";
 import { Mail, Lock, LogIn } from 'lucide-react'; // Professional icons
 
 const LoginPage = () => {

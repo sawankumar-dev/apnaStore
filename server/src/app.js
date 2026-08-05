@@ -1,5 +1,4 @@
 import express from "express"
-import noteRouter from "./routes/note.routes.js";
 import { fileURLToPath } from 'url';
 import path from 'path';
 
@@ -19,7 +18,7 @@ app.use(cors({
 }))
 
 //  Sahi aur Standard Tarika
-app.use("/api/v1/auth", userRouter); 
+app.use("/api/v1", userRouter); 
 
 
 if(config.NODE_ENV === 'production') {

@@ -4,10 +4,10 @@ import { verifyJwt } from "../middlewares/verifyJwt.js"
 
 const userRouter = Router();
 
-userRouter.post("/register", registerUser)
-userRouter.post("/login", loginUser)
-userRouter.post("/logout", verifyJwt, logoutUser)
-userRouter.get("/profile", verifyJwt, getCurrentUser)
-userRouter.post("/refresh-token", refreshAccessToken)
+userRouter.post("/auth/register", registerUser)
+userRouter.post("/auth/login", loginUser)
+userRouter.post("/auth/logout", verifyJwt, logoutUser)
+userRouter.get("/auth/profile", verifyJwt, getCurrentUser)
+userRouter.post("/auth/refresh-token", refreshAccessToken)
 
 export default userRouter

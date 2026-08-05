@@ -1,10 +1,16 @@
 import mongoose from "mongoose";
 import app from "./src/app.js";
 
-mongoose.connect("mongodb://localhost:27017/NotePro")
+// 1. localhost की जगह 127.0.0.1 का उपयोग करें
+mongoose.connect("mongodb://127.0.0.1:27017/NotePro")
 .then(() => {
-    console.log("Db is connected");
-    app.listen(3000, () => {
-        console.log("Server is running...")
+    console.log("Db is connected successfully!");
+    
+    // 2. इसे पोर्ट 3000 से बदलकर 5000 करें ताकि यह आपके React App से मैच करे
+    app.listen(5000, () => {
+        console.log("Server is running on port 5000...")
     })
+})
+.catch((err) => {
+    console.error("MongoDB connection error:", err);
 });

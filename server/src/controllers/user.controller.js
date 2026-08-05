@@ -34,7 +34,7 @@ export const registerUser = async (req, res) => {
         const refreshToken = user.generateRefreshToken();
         
         const options = {
-            // Agar local mein test kar rahe hain aur config.NODE_ENV "development" hai, 
+            // Agar local mein test kar  hain aur config.NODE_ENV "development" hai, 
             // toh secure: false ho jayega jo local testing ke liye ekdum sahi hai.
             secure: config.NODE_ENV === "production",
             httpOnly: true, 
