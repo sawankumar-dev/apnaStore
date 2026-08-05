@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { hydrateUserAction, loginUserAction, registerUserAction } from "./authActions";
+import { hydrateUserAction, loginUserAction, logoutUserAction, registerUserAction } from "./authActions";
 
 
 const initialState = {
@@ -19,6 +19,7 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+        // register ka kaam karne ke liye
         .addCase(registerUserAction.pending, (state, action) => {
             state.isLoading  = true;
         })
@@ -30,6 +31,7 @@ const authSlice = createSlice({
         .addCase(registerUserAction.rejected, (state, action) => {
             state.isLoading = false;
         })
+        // hydrate karne ke
         .addCase(hydrateUserAction.pending, (state, action) => {
             state.isLoading  = true;
         })
@@ -41,6 +43,7 @@ const authSlice = createSlice({
         .addCase(hydrateUserAction.rejected, (state, action) => {
             state.isLoading = false;
         })
+        // login user karne ke
         .addCase(loginUserAction.pending, (state, action) => {
             state.isLoading  = true;
         })
@@ -50,6 +53,18 @@ const authSlice = createSlice({
             state.isAuthenticated = true;
         })
         .addCase(loginUserAction.rejected, (state, action) => {
+            state.isLoading = false;
+        })
+        // Logout user karne 
+        .addCase(logoutUserAction.pending, (state, action) => {
+            state.isLoading  = true;
+        })
+        .addCase(logoutUserAction.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.user = null;
+            state.isAuthenticated = false;
+        })
+        .addCase(logoutUserAction.rejected, (state, action) => {
             state.isLoading = false;
         })
     }

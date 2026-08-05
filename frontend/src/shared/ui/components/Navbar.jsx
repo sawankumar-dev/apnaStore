@@ -1,8 +1,11 @@
 import React from 'react'
 import { NavLink } from 'react-router' // React Router v7 version ke mutabik
 import { Box, House, ShoppingCart, LogIn, Users, ListSortAscending } from 'lucide-react';
+import { useSelector } from 'react-redux';
+import ProfileComponent from '../../../features/auth/ui/components/ProfileComponent';
 
 const Navbar = () => {
+    const { name, isAuthenticated } = useSelector((state) => state.auth)
   // Active aur Base classes ko ek function mein wrap kiya taaki baar-baar code na likhna pade
   const navLinkStyles = ({ isActive }) => 
     `flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ease-in-out ${
@@ -21,7 +24,7 @@ const Navbar = () => {
                 size={22} 
             />
             <h2 className='text-xl font-bold tracking-wider bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent'>
-                CRESCENDO
+                MOONSTORE
             </h2>
         </div>
 
@@ -50,7 +53,7 @@ const Navbar = () => {
 
         {/* Right side Utility / Login Button */}
         <div>
-            <NavLink 
+            {isAuthenticated ? <ProfileComponent/>: <NavLink 
                 className={({ isActive }) => 
                   `flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg border transition-all duration-200 ${
                     isActive 
@@ -62,7 +65,8 @@ const Navbar = () => {
             >
                 <LogIn size={16}/>
                 <span>Login</span>
-            </NavLink>
+            </NavLink>}
+            
         </div>
     </div>
   )

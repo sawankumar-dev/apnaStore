@@ -56,7 +56,8 @@ export const registerUser = async (req, res) => {
                 user: {
                         id: user._id,
                         name: user.name,
-                        email: user.email
+                        email: user.email,
+                        role: user.role,
                     }
             })   
     } catch (error) {
@@ -118,6 +119,7 @@ export const loginUser = async (req, res) => {
                         id: user._id,
                         name: user.name,
                         email: user.email,
+                        role: user.role,
                     }
                 })
     } catch (error) {
@@ -212,7 +214,7 @@ export const logoutUser = async (req, res) => {
 };
 
 export const getCurrentUser = (req, res) => {
-    const { id, name, email } = req.user;
+    const { id, name, email, role } = req.user;
     try {
         return res.status(200).json({
             success: true,
@@ -220,7 +222,8 @@ export const getCurrentUser = (req, res) => {
             user: {
                 id,
                 name,
-                email
+                email,
+                role
             }
         })
     } catch (error) {

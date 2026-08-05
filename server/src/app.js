@@ -27,7 +27,7 @@ app.use("/api/v1", userRouter);
 
 
 if(config.NODE_ENV === 'production') {
-    const buildPath = path.join(__dirname, '../../client/dist');
+    const buildPath = path.join(__dirname, '../../frontend/dist');
 
     app.use(express.static(buildPath))
     app.get("*any", (req, res) =>{

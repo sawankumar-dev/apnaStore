@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { hydrateUser, loginUserApi, registerUserApi } from "../api/authApi";
+import { hydrateUser, loginUserApi, logoutUserApi, registerUserApi } from "../api/authApi";
 
 export const loginUserAction = createAsyncThunk("auth/login", async (credentials, thunkAPI) => {
     try {
@@ -28,5 +28,14 @@ export const hydrateUserAction = createAsyncThunk("auth/profile", async (_, thun
         return res.user;
     } catch (error) {
         return thunkApi.rejectWithValue("Unauthorized user",error)
+    }
+})
+
+export const logoutUserAction = createAsyncThunk("auth/logout",async(_,thunkApi)=>{
+    try {
+        const res = await logoutUserApi();
+        return res;
+    } catch (error) {
+        return thunkApi.rejectWithValue("logout fail",error)
     }
 })

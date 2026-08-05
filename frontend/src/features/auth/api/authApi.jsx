@@ -29,3 +29,13 @@ export const hydrateUser = async () => {
         throw error
     }
 }
+
+export const logoutUserApi = async () => {
+    try {
+        const response = await api.post("/auth/logout");
+        return response.data;
+    } catch (error) {
+        console.log("Logout user Api Error", error)
+        throw error
+    }
+}
