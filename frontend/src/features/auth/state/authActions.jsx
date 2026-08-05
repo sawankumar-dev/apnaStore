@@ -1,10 +1,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { hydrateUser, registerUserApi } from "../api/authApi";
+import { hydrateUser, loginUserApi, registerUserApi } from "../api/authApi";
 
-export const registerUserAction = createAsyncThunk("auth/register", async (userData, thunkApi) => {
+export const loginUserAction = createAsyncThunk("auth/login", async (credentials, thunkAPI) => {
+    try {
+        let res = await loginUserApi(credentials)
+        return res.user;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(
+            error.response?.data?.message || "Login"
+        )
+    }
+})
+
+export const registerUserAction = createAsyncThunk("auth/register", async (userData, thunkAPI) => {
     try {
         let res = await registerUserApi(userData);
-        return res.data; 
+        return res.user; 
     } catch (error) {
         return thunkAPI.rejectWithValue(
             error.response?.data?.message || "Register Failed"

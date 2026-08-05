@@ -71,12 +71,13 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
-        if(!name || !email ) {
+        if(!email || !password ) {
             return res.status(422).json({
                 success: false,
                 message: "Please provide name, email, password"
             })
         }
+        console.log(email, password)
         // user exists or not
         const user = await User.findOne({ email });
         if(!user) {
@@ -100,11 +101,12 @@ export const loginUser = async (req, res) => {
           user.refreshToken = refreshToken;
           await user.save()
 
-          const options = {
-            httpOnly: true,
-            secure: config.NODE_ENV === "production",
-            sameSite:"lax"
-          }
+            const options = {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production", // ✅ standard way
+                sameSite: "lax"
+            };
+
           return res
                 .status(200)
                 .cookie('accessToken', accessToken, options)

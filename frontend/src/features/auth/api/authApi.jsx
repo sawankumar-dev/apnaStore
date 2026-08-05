@@ -1,5 +1,15 @@
 import { api } from "../../../config/api"
 
+export const loginUserApi = async (credential) => {
+    try {
+        const response = await api.post("/auth/login", credential);
+        return response.data;
+    } catch (error) {
+        console.log("Login user Api Error", error)
+        throw error
+    }
+}
+
 export const registerUserApi = async (userData) => {
     try {
         const response = await api.post("/auth/register", userData);

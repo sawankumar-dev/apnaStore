@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router"
 import { registerUserApi } from "../api/authApi";
-import { registerUserAction } from "../state/authActions";
+import { loginUserAction, registerUserAction } from "../state/authActions";
 
 export const useAuth = () => {
     const navigate = useNavigate()
@@ -12,12 +12,14 @@ export const useAuth = () => {
     });
 
     const registerFormHook = async (data) => {
-        dispatch(registerUserAction());
+        dispatch(registerUserAction(data));
         reset()
         navigate("/")
     };
     const loginFormHook = async (credential) => {
-
+        dispatch(loginUserAction(credential));
+        reset()
+        navigate("/")
     }
     return {
         navigate,

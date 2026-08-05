@@ -4,23 +4,10 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../state/authSlice";
 import { Mail, Lock, LogIn } from 'lucide-react'; // Professional icons
+import { useAuth } from '../../hooks/useAuthHook';
 
 const LoginPage = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    
-    const { 
-        register, 
-        handleSubmit, 
-        formState: { errors } 
-    } = useForm({ mode: "onTouched" });
-
-    const handleLogin = (data) => {
-        // data ab sahi format mein aayega: { email: '...', password: '...' }
-        dispatch(setUser(data));
-        navigate('/');
-    };
-
+    const { navigate, register, handleSubmit, loginFormHook, errors } = useAuth()
     return (
         <div className="flex bg-gray-800 justify-center items-center py-8 min-h-screen">
             
@@ -37,7 +24,7 @@ const LoginPage = () => {
                 </div>
 
                 {/* Form Section */}
-                <form onSubmit={handleSubmit(handleLogin)} className="space-y-5">
+                <form onSubmit={handleSubmit(loginFormHook)} className="space-y-5">
                     
                     {/* Email Input */}
                     <div className="space-y-1.5">
