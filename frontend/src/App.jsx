@@ -1,7 +1,7 @@
 const App = () => {
   return (
     <>
-      <h1>Book Store</h1>
+      <h1>Heading 1</h1>
     </>
   )
 }
