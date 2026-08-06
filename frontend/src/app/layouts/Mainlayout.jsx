@@ -7,7 +7,7 @@ const MainLayout = () => {
     <div className="bg-linear-to-b from-gray-950 to-gray-900 min-h-screen text-gray-100 selection:bg-green-500/30 antialiased pb-12 pt-4">
         
         {/* Top Navbar Section - Jisme upar se halka gap maintain kiya hai */}
-        <header className="sticky top-0 z-50 px-4 md:px-0 backdrop-blur-md bg-gray-950/40">
+        <header className="sticky top-3 z-50 px-4 md:px-0 backdrop-blur-md mt-4">
             <Navbar/>   
         </header>
 

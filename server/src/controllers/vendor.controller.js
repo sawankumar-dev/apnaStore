@@ -83,7 +83,7 @@ export const approveOrRejectVendor = async (req, res) => {
         // Status update karte hai yahan par
         vendorRequest.status = action;
         await vendorRequest.save();
-        // Agr approve hua toh use ka role bhi change
+        // Agr approve hua toh user ka role bhi change
         if(action === "approved") {
             await User.findByIdAndReplace(vendorRequest.user, { role: "vendor" })
         }

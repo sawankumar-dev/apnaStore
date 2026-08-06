@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import cors from 'cors';
 import config from "./config/config.js";
 import userRouter from "./routes/user.routes.js";
+import vendorRouter from "./routes/vendor.routes.js";
 
 const app = express();
 // 1. ES Module mein __dirname ko aise banate hain:
@@ -24,6 +25,7 @@ app.use(express.urlencoded({ extended: true }))
 
 //  Sahi aur Standard Tarika
 app.use("/api/v1", userRouter); 
+app.use("/api/v1", vendorRouter); 
 
 
 if(config.NODE_ENV === 'production') {

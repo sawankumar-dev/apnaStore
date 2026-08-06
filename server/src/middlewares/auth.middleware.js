@@ -30,3 +30,26 @@ export const verifyJwt = async (req, res, next) => {
         })
     }
 }
+
+export const isAdmin = async (req, res, next) => {
+    try {
+        if(!req.user) {
+            return res.status(401).json({
+                success: false,
+                message: "Unauthorized: User not found in request"
+            })
+        };
+        if(!req.user.role === "admin") {
+            return res.status(403).json({
+                success: false,
+                message: "Access Denied: Only Admin can perform this action"
+            });
+        }
+        next()
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            message: error.message || "Internal Server Error in Admin Middleware"
+        })
+    }
+}
