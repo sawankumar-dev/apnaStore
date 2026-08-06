@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router"
 import { registerUserApi } from "../api/authApi";
 import { loginUserAction, registerUserAction } from "../state/authActions";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 export const useAuth = () => {
     const navigate = useNavigate()
@@ -18,6 +20,7 @@ export const useAuth = () => {
     };
     const loginFormHook = async (credential) => {
         dispatch(loginUserAction(credential));
+        toast.success("Login successful!");
         reset()
         navigate("/")
     }

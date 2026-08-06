@@ -15,7 +15,7 @@ const Navbar = () => {
     }`;
 
   return (
-    <div className='flex items-center justify-between max-w-6xl w-full bg-gray-900 border border-gray-800 text-gray-100 mx-auto px-6 py-4 rounded-xl shadow-lg'>
+    <div className='flex  items-center justify-between max-w-6xl w-full bg-gray-900 border border-gray-800 text-gray-100 mx-auto px-6 py-4 rounded-xl shadow-lg'>
         
         {/* Logo / Brand Section */}
         <div className='flex items-center gap-2 cursor-pointer group'>

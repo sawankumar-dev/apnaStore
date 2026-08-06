@@ -5,10 +5,17 @@ import User from "../models/user.model.js";
 export const verifyJwt = async (req, res, next) => {
     try {
         const token = req.cookies?.accessToken;
+       // 🔴 exact check karne ke liye ye log lagayein
+        console.log("---- DEBUG START ----");
+        console.log("Type of req.cookies:", typeof req.cookies);
+        console.log("Value inside req.cookies.accessToken:", req.cookies?.accessToken);
+        console.log("Is token truthy?:", !!token);
+        console.log("---- DEBUG END ----");
+
         if(!token) {
             return res.status(401).json({
                 success: false,
-                message: "Unauthorized request",
+                message: "Unauthorized request matlab ki token nhi hai",
                 token: token
             })
         }
@@ -39,10 +46,10 @@ export const isAdmin = async (req, res, next) => {
                 message: "Unauthorized: User not found in request"
             })
         };
-        if(!req.user.role === "admin") {
+        if (req.user.role !== "admin") {
             return res.status(403).json({
                 success: false,
-                message: "Access Denied: Only Admin can perform this action"
+                message: `Access Denied: Only Admin can perform this action. Your role is ${req.user.role}`
             });
         }
         next()

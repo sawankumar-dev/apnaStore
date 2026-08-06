@@ -11,6 +11,7 @@ import RegisterPage from '../features/auth/ui/pages/RegisterPage'
 import AboutPage from '../shared/ui/pages/AboutPage'
 import { hydrateUserAction } from '../features/auth/state/authActions'
 import { useDispatch } from 'react-redux'
+import VendorApplicationForm from '../features/vendor/ui/pages/VendorApplicationFormPage'
 
 const MainRoutes = () => {
     const dispatch = useDispatch();
@@ -47,6 +48,10 @@ const MainRoutes = () => {
                         {
                             path: "products",
                             element: <ProductsPage/>
+                        },
+                        {
+                            path: "become-vendor",
+                            element: <VendorApplicationForm/>
                         }
                     ]
                 }

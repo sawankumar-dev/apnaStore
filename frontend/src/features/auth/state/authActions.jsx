@@ -9,6 +9,7 @@ export const loginUserAction = createAsyncThunk("auth/login", async (credentials
         return thunkAPI.rejectWithValue(
             error.response?.data?.message || "Login"
         )
+        // toast.error("Invalid credentials!");
     }
 })
 

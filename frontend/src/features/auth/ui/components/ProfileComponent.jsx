@@ -2,12 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { LogOut, User, Settings, CreditCard } from 'lucide-react'; // Icons ke liye (Optional: npm i lucide-react)
 import { logoutUserAction } from '../../state/authActions';
+import { useNavigate } from 'react-router';
 
 const ProfileComponent = () => {
     const { user } = useSelector((state) => state.auth);
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     const name = user?.name || "User";
 
@@ -66,7 +68,7 @@ const ProfileComponent = () => {
 
                         {/* 🌟 Dynamic Vendor / Dashboard Button */}
                         {user?.role === "customer" && (
-                            <button className="flex w-full items-center gap-3 px-3 py-2 text-sm font-medium text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-colors text-left cursor-pointer mt-1 border border-dashed border-emerald-500/30">
+                            <button onClick={()=>navigate("become-vendor")} className="flex w-full items-center gap-3 px-3 py-2 text-sm font-medium text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-colors text-left cursor-pointer mt-1 border border-dashed border-emerald-500/30">
                                 <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
                                 Become a Vendor
                             </button>
