@@ -58,14 +58,15 @@ export const registerVendor = async (req, res) => {
 // ==========================================
 export const getAllPendingRequests = async (req, res) => {
     try {
-        const pendingRequests = await Vendor.find({ status: "pending" }).populate("user", "name email");
-        return res.state(200).json({
+        console.log("Admin pending requests check kar rha hai")
+        const pendingRequests = await Vendor.find({ status: "pending" }).populate("user", "name email").sort({ createdAt: -1 });
+        return res.status(200).json({
             success: true,
             data: pendingRequests
         })
     } catch (error) {
         return res.state(500).json({ success: false,
-            message: error.message
+            message: error.message,
         });
     }
 };
@@ -75,11 +76,20 @@ export const getAllPendingRequests = async (req, res) => {
 // ==========================================
 export const approveOrRejectVendor = async (req, res) => {
     try {
-        const { requestId, action } = req.body;
+        console.log("Admin action perform kar rha hai: ", req.body);
+        const { requestId, action } = req.body;// action ki value hamesha 'approved' ya 'rejected' hogi
+
+        // 1. Validation check
+        if(!requestId || !action) {
+            return res.status(422).json({
+                success: false,
+                message: "Please provide requestId and action (approved/rejected)"
+            })
+        }
         if(!["approved", "rejected"].includes(action)) {
             return res.status(400).json({
                 success: false,
-                message: "Invalid action type"
+                message: "Invalid action type! It must be 'approved' or 'rejected'"
             })
         }
         // request find karo ki hai ya fir nhai
@@ -90,12 +100,24 @@ export const approveOrRejectVendor = async (req, res) => {
                 message: "Request not found"
             })
         }
+
+        // 3. Agar request pehle se hi processed hai toh dobara change na ho
+        if(vendorRequest.status !== "pending") {
+            return res.status(400).json({
+                success: false,
+                message: `This request has already been ${vendorRequest.status}`
+            })
+        }
         // Status update karte hai yahan par
         vendorRequest.status = action;
         await vendorRequest.save();
         // Agr approve hua toh user ka role bhi change
         if(action === "approved") {
-            await User.findByIdAndReplace(vendorRequest.user, { role: "vendor" })
+            await User.findByIdAndUpdate(
+                vendorRequest.user, 
+                { role: "vendor" },
+                { new: true },
+            )
         }
         return res.status(200).json({
             success: true,
