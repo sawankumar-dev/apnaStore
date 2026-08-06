@@ -6,6 +6,7 @@ import Vendor from "../models/vendor.model.js";
 // ==========================================
 export const registerVendor = async (req, res) => {
     console.log("Register Vendor controller chal rha ahi")
+    console.log(req.body)
     try {
         const {
             shopName,
@@ -20,7 +21,7 @@ export const registerVendor = async (req, res) => {
         // check karte hai ki user ne phle se to request nhi dal rakhi hai
         const existingRequest = await Vendor.findOne({ user: userId });
         if(existingRequest) {
-            return res.state(400).json({
+            return res.status(400).json({
                 success: true,
                 message: `You already have a vendor request with status: ${existingRequest.status}`
             })
@@ -38,7 +39,8 @@ export const registerVendor = async (req, res) => {
                 pinCode,
             }
         });
-        return res.state(201).json({
+        console.log(newVendorRequest)
+        return res.status(201).json({
             success: true,
             message: "Vendor request submitted successfully! Waiting for admin approval.",
             data: newVendorRequest 
@@ -49,7 +51,6 @@ export const registerVendor = async (req, res) => {
             message: "Internal server error"
         })
     }
-
 }
 
 // ==========================================

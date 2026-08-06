@@ -29,7 +29,7 @@ export const useVendor = () => {
         setLoading(true);
         setServerError('');
         try {
-            const response = await createRequest();
+            const response = await createRequest(formData);
             if (response.data.success) {
                 alert("Application submitted successfully! Redirecting to home...");
                 navigate('/');  
