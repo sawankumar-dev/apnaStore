@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { lazy, useEffect } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import HomePage from '../shared/ui/pages/HomePage'
 import CartPage from '../shared/ui/pages/CartPage'
@@ -12,6 +12,13 @@ import AboutPage from '../shared/ui/pages/AboutPage'
 import { hydrateUserAction } from '../features/auth/state/authActions'
 import { useDispatch } from 'react-redux'
 import VendorApplicationForm from '../features/vendor/ui/pages/VendorApplicationFormPage'
+import VendorProtected from './protected/VendorProtected'
+import AdminProtected from './protected/AdminProtected'
+import VendorLayout from '../app/layouts/VendorLayout'
+import AdminLayout from '../app/layouts/AdminLayout'
+const VendorRequestsList = lazy(() => import("../features/admin/ui/pages/VendorRequestsList"));
+import Dashboard from '../features/admin/ui/pages/Dashboard'
+import VendorsList from '../features/admin/ui/pages/VendorsList'
 
 const MainRoutes = () => {
     const dispatch = useDispatch();
@@ -68,6 +75,43 @@ const MainRoutes = () => {
                 {
                     path: "register",
                     element: <RegisterPage/>
+                }
+            ]
+        },
+        // Vender 
+        {
+            path: '/vendor',
+            element: <VendorProtected/>,
+            children: [
+                {
+                    path: "",
+                    element: <VendorLayout/>
+                }
+            ]
+        },
+
+        //Admin
+        {
+            path:"/admin",
+            element:<AdminProtected/>,
+            children:[
+                {
+                    path: "",
+                    element: <AdminLayout/>,
+                    children: [
+                        {
+                          path: "",
+                          element: <Dashboard/>
+                        },
+                        {
+                            path: "vendor-request",
+                            element: <VendorRequestsList/>
+                        },
+                        {
+                            path: "vendors",
+                            element: <VendorsList/>
+                        }
+                    ]
                 }
             ]
         }

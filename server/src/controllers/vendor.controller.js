@@ -100,7 +100,7 @@ export const approveOrRejectVendor = async (req, res) => {
                 message: "Request not found"
             })
         }
-
+        
         // 3. Agar request pehle se hi processed hai toh dobara change na ho
         if(vendorRequest.status !== "pending") {
             return res.status(400).json({

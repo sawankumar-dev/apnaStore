@@ -29,6 +29,10 @@ const ProfileComponent = () => {
         console.log("Logging out...");
         dispatch(logoutUserAction())
     };
+    const handleAdmin = () => {
+        // Yahan aap apna logout action dispatch kar sakte hain
+        navigate('/admin')
+    };
 
     return (
         <div className="relative" ref={dropdownRef}>
@@ -82,13 +86,12 @@ const ProfileComponent = () => {
                         )}
 
                         {user?.role === "admin" && (
-                            <button className="flex w-full items-center gap-3 px-3 py-2 text-sm font-medium text-amber-400 hover:bg-amber-500/10 rounded-lg transition-colors text-left cursor-pointer mt-1 border border-dashed border-amber-500/30">
+                            <button onClick={() => handleAdmin()} className="flex w-full items-center gap-3 px-3 py-2 text-sm font-medium text-amber-400 hover:bg-amber-500/10 rounded-lg transition-colors text-left cursor-pointer mt-1 border border-dashed border-amber-500/30">
                                 <span className="flex h-2 w-2 rounded-full bg-amber-400"></span>
                                 Admin Panel
                             </button>
                         )}
                     </div>
-
 
                     {/* Divider */}
                     <div className="border-t border-slate-800 my-1"></div>
