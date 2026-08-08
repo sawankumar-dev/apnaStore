@@ -74,7 +74,7 @@ const HomePage = () => {
             variants={item}
             className="mb-6 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-400"
           >
-            {greeting}, {user?.name || "Guest"} 👋
+          {greeting}, {user?.name ? user.name.charAt(0).toUpperCase() + user.name.slice(1) : "Guest"} 👋
           </motion.span>
 
           {/* Heading */}

@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { approveOrRejectVendorAction, getAllRequestAction } from "./adminAction";
+import { approveOrRejectVendorAction, getAllCustomersAction, getAllRequestAction } from "./adminAction";
 
 const initialState = {
     stats: null,
-    customer: [],
+    users: [],
     pendingRequests: [],
     selectedRequest: null,
     vendors: [],
@@ -35,6 +35,17 @@ const adminSlice = createSlice({
             state.isLoading = false;
         })
         .addCase(approveOrRejectVendorAction.rejected, (state, action) => {
+            state.isLoading = false;
+        })
+        // Get all users
+        .addCase(getAllCustomersAction.pending, (state, action) => {
+            state.isLoading = true;
+        })
+        .addCase(getAllCustomersAction.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.users = action.payload;
+        })
+        .addCase(getAllCustomersAction.rejected, (state, action) => {
             state.isLoading = false;
         })
     }

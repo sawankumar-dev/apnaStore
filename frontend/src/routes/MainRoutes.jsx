@@ -19,6 +19,7 @@ import AdminLayout from '../app/layouts/AdminLayout'
 const VendorRequestsList = lazy(() => import("../features/admin/ui/pages/VendorRequestsList"));
 import Dashboard from '../features/admin/ui/pages/Dashboard'
 import VendorsList from '../features/admin/ui/pages/VendorsList'
+import UsersList from '../features/admin/ui/pages/UsersList'
 
 const MainRoutes = () => {
     const dispatch = useDispatch();
@@ -110,6 +111,10 @@ const MainRoutes = () => {
                         {
                             path: "vendors",
                             element: <VendorsList/>
+                        },
+                        {
+                            path: "users",
+                            element: <UsersList/>
                         }
                     ]
                 }

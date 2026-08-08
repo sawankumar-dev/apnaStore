@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { approveOrRejectVendorAction, getAllRequestAction } from "../../state/adminAction";
 import { Store, Check, X, ShieldAlert, ArrowRight } from "lucide-react"; // Icons ke liye (npm i lucide-react)
+import toast from "react-hot-toast";
 
 const VendorRequestsList = () => {
   const dispatch = useDispatch();
@@ -9,7 +10,7 @@ const VendorRequestsList = () => {
 
   useEffect(() => {
     dispatch(getAllRequestAction());
-  }, [dispatch]);
+  }, []);
 
   // 🌀 Modern Shimmer/Skeleton Loading State
   if (isLoading) {
@@ -23,13 +24,18 @@ const VendorRequestsList = () => {
     );
   }
   console.log(pendingRequests)
-  const getActionAndUserId = (requestId, action) => {
+  const getActionAndUserId = async (requestId, action) => {
     const data = {
       requestId,
       action
     }
-    console.log("Data from VendorRequestList",data)
-    dispatch(approveOrRejectVendorAction(data));
+    if(action === "approved") {
+      toast.success("Request approved.")
+    } else {
+      toast.dismiss("Request rejected.")
+    }
+    await dispatch(approveOrRejectVendorAction(data));
+    dispatch(getAllRequestAction());
   }
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">

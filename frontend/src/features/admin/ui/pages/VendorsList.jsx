@@ -4,4 +4,4 @@ const VendorsList = () => {
   )
 }
 
-export default VendorsList
+export default VendorsList  

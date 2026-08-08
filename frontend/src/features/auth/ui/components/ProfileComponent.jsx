@@ -30,7 +30,6 @@ const ProfileComponent = () => {
         dispatch(logoutUserAction())
     };
     const handleAdmin = () => {
-        // Yahan aap apna logout action dispatch kar sakte hain
         navigate('/admin')
     };
 

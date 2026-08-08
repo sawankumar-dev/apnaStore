@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { createRequest } from "../api/vendorApi";
+import toast from "react-hot-toast";
 
 export const useVendor = () => {
     const navigate = useNavigate();
@@ -31,7 +32,7 @@ export const useVendor = () => {
         try {
             const response = await createRequest(formData);
             if (response.data.success) {
-                alert("Application submitted successfully! Redirecting to home...");
+                toast.success("Application submitted successfully! Redirecting to home...");
                 navigate('/');  
             }
         } catch (err) {
