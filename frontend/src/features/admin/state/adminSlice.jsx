@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { approveOrRejectVendorAction, getAllCustomersAction, getAllRequestAction } from "./adminAction";
+import { 
+    approveOrRejectVendorAction, 
+    getAllCustomersAction, 
+    getAllRequestAction, 
+    getAllVendorsAction, 
+    getDashboardStatsAction 
+} from "./adminAction";
 
 const initialState = {
     stats: null,
@@ -15,31 +21,65 @@ const initialState = {
 const adminSlice = createSlice({
     name: "admin",
     initialState,
+    reducers: {
+        // Future use ke liye clean up action (Optional)
+        clearAdminError: (state) => {
+            state.error = null;
+        }
+    },
     extraReducers: (builder) => {
         builder
-        .addCase(getAllRequestAction.pending, (state, action) => {
-            state.isLoading = true
+        // ==========================================
+        // 1. Get All Pending Requests Cases
+        // ==========================================
+        .addCase(getAllRequestAction.pending, (state) => {
+            state.isLoading = true;
+            state.error = null;
         })
         .addCase(getAllRequestAction.fulfilled, (state, action) => {
-            state.isLoading = false
-            state.pendingRequests = action.payload
+            state.isLoading = false;
+            state.pendingRequests = action.payload;
         })
-        .addCase(getAllRequestAction.rejected, (state,action) => {
-            state.isLoading = false
+        .addCase(getAllRequestAction.rejected, (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload || "Failed to fetch pending requests";
         })
-        // Approve and Reject Action Cases
-        .addCase(approveOrRejectVendorAction.pending, (state, action) => {
+
+        // ==========================================
+        // 2. Approve and Reject Action Cases (State Sync Fixed)
+        // ==========================================
+        .addCase(approveOrRejectVendorAction.pending, (state) => {
             state.isLoading = true;
+            state.error = null;
         })
         .addCase(approveOrRejectVendorAction.fulfilled, (state, action) => {
             state.isLoading = false;
+            
+            // 🔴 Reactive Fix: Filter out the processed request instantly from UI
+            // Assuming your action.meta.arg contains { requestId } passed to the action
+            const requestId = action.meta?.arg?.requestId;
+            if (requestId) {
+                state.pendingRequests = state.pendingRequests.filter(
+                    (req) => req._id !== requestId
+                );
+                
+                // Optional: Update pending stats count dynamically without reloading API
+                if (state.stats) {
+                    state.stats.totalPendingRequests = Math.max(0, state.stats.totalPendingRequests - 1);
+                }
+            }
         })
         .addCase(approveOrRejectVendorAction.rejected, (state, action) => {
             state.isLoading = false;
+            state.error = action.payload || "Action execution failed";
         })
-        // Get all users
-        .addCase(getAllCustomersAction.pending, (state, action) => {
+
+        // ==========================================
+        // 3. Get All Customers / Users Cases
+        // ==========================================
+        .addCase(getAllCustomersAction.pending, (state) => {
             state.isLoading = true;
+            state.error = null;
         })
         .addCase(getAllCustomersAction.fulfilled, (state, action) => {
             state.isLoading = false;
@@ -47,8 +87,42 @@ const adminSlice = createSlice({
         })
         .addCase(getAllCustomersAction.rejected, (state, action) => {
             state.isLoading = false;
+            state.error = action.payload || "Failed to load customers directory";
         })
-    }
-})
 
-export default adminSlice.reducer
+        // ==========================================
+        // 4. Get Dashboard Analytics Stats Cases
+        // ==========================================
+        .addCase(getDashboardStatsAction.pending, (state) => {
+            state.isLoading = true;
+            state.error = null;
+        })
+        .addCase(getDashboardStatsAction.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.stats = action.payload;
+        })
+        .addCase(getDashboardStatsAction.rejected, (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload || "Failed to refresh dashboard stats";
+        })
+
+        // ==========================================
+        // 5. Get All Verified Active Vendors Cases
+        // ==========================================
+        .addCase(getAllVendorsAction.pending, (state) => {
+            state.isLoading = true;
+            state.error = null;
+        })
+        .addCase(getAllVendorsAction.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.vendors = action.payload;
+        })
+        .addCase(getAllVendorsAction.rejected, (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload || "Failed to load vendors log";
+        });
+    }
+});
+
+export const { clearAdminError } = adminSlice.actions;
+export default adminSlice.reducer;

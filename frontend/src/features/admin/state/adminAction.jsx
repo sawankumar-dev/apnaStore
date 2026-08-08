@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { approveOrRejectVendorApi, getAllCustomersApi, getAllRequest } from "../api/adminApi";
+import { approveOrRejectVendorApi, dashboardStatsApi, getAllCustomersApi, getAllRequest, getAllVendorsApi } from "../api/adminApi";
 
 // Get all Request which is send by users to become vendor
 // ✅ completed
@@ -33,5 +33,21 @@ export const getAllCustomersAction = createAsyncThunk("admin/users", async (_, t
         return res.data.customers;
     } catch (error) {
         thunkApi.rejectWithValue(error);
+    }
+})
+export const getDashboardStatsAction = createAsyncThunk("admin/stats", async (_, thunkApi) => {
+    try {
+        let res = await dashboardStatsApi();
+        return res.data;
+    } catch (error) {
+        thunkApi.rejectWithValue(error)
+    }
+})
+export const getAllVendorsAction = createAsyncThunk("admin/vendors", async (_, thunkApi) => {
+    try {
+        let res = await getAllVendorsApi();
+        return res.vendors;
+    } catch (error) {
+        thunkApi.rejectWithValue(error)
     }
 })

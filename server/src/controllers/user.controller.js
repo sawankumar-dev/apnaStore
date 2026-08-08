@@ -161,7 +161,7 @@ export const refreshAccessToken = async (req, res) => {
          const refreshToken = user.generateRefreshToken()
          const accessToken  = user.generateAccessToken()
 
-         user.refreshToken = refreshToken;
+        user.refreshToken = refreshToken;
         await user.save();
 
          const options = {

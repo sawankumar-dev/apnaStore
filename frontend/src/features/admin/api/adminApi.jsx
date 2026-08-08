@@ -21,7 +21,7 @@ export const getAllCustomersApi = async () => {
 }
 
 //Take action on vendor's request
-// Get All 
+// ✅ completed
 export const approveOrRejectVendorApi = async(data)=>{
     try{
         console.log("data from AdminApi.jsx", data)
@@ -33,12 +33,21 @@ export const approveOrRejectVendorApi = async(data)=>{
     }
 }
 
-//Get dashboard stats
-export const dashboardStats = async () => {
+//Get dashboard stats ✅ completed
+export const dashboardStatsApi = async () => {
     try {
         const response = await api.get("/stats");
-        return response
+        return response.data
     } catch (error) {
         console.log("All Request Error",error)
+    }
+}
+// Get all Vendors
+export const getAllVendorsApi = async () => {
+    try {
+        const response = await api.get("/users/vendors");
+        return response.data;
+    } catch (error) {
+        console.log("All Vendors requests", error)
     }
 }
