@@ -5,13 +5,7 @@ import User from "../models/user.model.js";
 export const verifyJwt = async (req, res, next) => {
     try {
         const token = req.cookies?.accessToken;
-       // 🔴 exact check karne ke liye ye log lagayein
-        console.log("---- DEBUG START ----");
-        console.log("Type of req.cookies:", typeof req.cookies);
-        console.log("Value inside req.cookies.accessToken:", req.cookies?.accessToken);
-        console.log("Is token truthy?:", !!token);
-        console.log("---- DEBUG END ----");
-
+ 
         if(!token) {
             return res.status(401).json({
                 success: false,
@@ -57,6 +51,28 @@ export const isAdmin = async (req, res, next) => {
         return res.status(500).json({
             success:false,
             message: error.message || "Internal Server Error in Admin Middleware"
+        })
+    }
+}
+export const isVendor = async (req, res, next) => {
+    try {
+        if(!req.user) {
+            return res.status(401).json({
+                success: false,
+                message: "Unauthorized: User not found in request"
+            })
+        };
+        if (req.user.role !== "vendor") {
+            return res.status(403).json({
+                success: false,
+                message: `Access Denied: Only Vendor can perform this action. Your role is ${req.user.role}`
+            });
+        }
+        next()
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            message: error.message || "Internal Server Error in Vendor Middleware"
         })
     }
 }

@@ -132,42 +132,48 @@ export const loginUser = async (req, res) => {
 export const refreshAccessToken = async (req, res) => {
     try {
          // 1. Cookie se incoming refresh token nikalein
-         const incomingRefreshToken = req.cookies.refreshToken;
-         if(!incomingRefreshToken) {
+         const incomingRefreshToken = req.cookies?.refreshToken; // Safe optional chaining
+         if (!incomingRefreshToken) {
             return res.status(401).json({
                 success: false,
-                message: "Unauthorized request"
-            })
+                message: "Unauthorized request: Refresh token missing"
+            });
          }
+
          // 2. Token ko verify kro
          const decodedToken = jwt.verify(incomingRefreshToken, config.REFRESH_TOKEN_SECRET);
 
-         // 3. database se user find karo
+         // 3. Database se user find karo
          const user = await User.findById(decodedToken?._id);
-         if(!user) {
+         if (!user) {
             return res.status(401).json({
                 success: false,
-                message: "Invalid refresh token"
-            })
+                message: "Invalid refresh token: User not found"
+            });
          }
-         // check karein ki incomingRefreshToken and db vala token same hai ya nhi
-         if(incomingRefreshToken !== user?.refreshToken) {
-            return res.status(401).json({
-                success: false,
-                message: "Refresh token is expired or used"
-            })
-         }
-         // new refreshToken ko generate kro
-         const refreshToken = user.generateRefreshToken()
-         const accessToken  = user.generateAccessToken()
 
-        user.refreshToken = refreshToken;
-        await user.save();
+         // 4. Check karein ki incomingRefreshToken and db vala token same hai ya nhi
+         if (incomingRefreshToken !== user?.refreshToken) {
+            return res.status(401).json({
+                success: false,
+                message: "Refresh token is expired or already used"
+            });
+         }
+
+         // 5. New tokens generate kro
+         const refreshToken = user.generateRefreshToken();
+         const accessToken  = user.generateAccessToken();
+
+         // Save new token back to database
+         user.refreshToken = refreshToken;
+         
+         // ✅ Fixed: validateBeforeSave false kiya taaki password rehashing hooks trigger na hon
+         await user.save({ validateBeforeSave: false });
 
          const options = {
             secure: config.NODE_ENV === "production",
             httpOnly: true,
-            sameSite:"lax"
+            sameSite: "lax"
          };
 
          return res.status(200)
@@ -175,15 +181,22 @@ export const refreshAccessToken = async (req, res) => {
             .cookie("refreshToken", refreshToken, options)
             .json({
                 success: true,
-                message: "Access token refreshed"
-            })
+                message: "Access token refreshed successfully"
+            });
+
     } catch (error) {
-        return res.status(401).json({
+        console.log("💥 Refresh Token Controller Error:", error.message);
+        
+        // ✅ Fixed: Safe error tracking status codes mapping
+        const statusCode = error.name === "JsonWebTokenError" || error.name === "TokenExpiredError" ? 401 : 500;
+        
+        return res.status(statusCode).json({
             success: false,
-            message: "Invalid refresh token"
-        })
+            message: statusCode === 401 ? "Invalid or expired refresh token" : "Internal server error during token refresh"
+        });
     }
-}
+};
+
 
 export const logoutUser = async (req, res) => {
     try {

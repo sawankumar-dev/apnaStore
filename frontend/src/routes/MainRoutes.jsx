@@ -20,6 +20,8 @@ const VendorRequestsList = lazy(() => import("../features/admin/ui/pages/VendorR
 import Dashboard from '../features/admin/ui/pages/Dashboard'
 import VendorsList from '../features/admin/ui/pages/VendorsList'
 import UsersList from '../features/admin/ui/pages/UsersList'
+import AddProduct from '../features/vendor/ui/pages/AddProduct'
+import VendorProducts from '../features/vendor/ui/pages/VendorProducts'
 
 const MainRoutes = () => {
     const dispatch = useDispatch();
@@ -86,7 +88,17 @@ const MainRoutes = () => {
             children: [
                 {
                     path: "",
-                    element: <VendorLayout/>
+                    element: <VendorLayout/>,
+                    children: [
+                        {
+                            path: "add-product",
+                            element: <AddProduct/>
+                        },
+                        {
+                            path: "products",
+                            element: <VendorProducts/>
+                        }
+                    ]
                 }
             ]
         },

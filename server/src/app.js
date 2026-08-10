@@ -29,7 +29,6 @@ app.use("/api/v1", userRouter);
 app.use("/api/v1", vendorRouter); 
 app.use("/api/v1", adminRouter)
 
-
 if(config.NODE_ENV === 'production') {
     const buildPath = path.join(__dirname, '../../frontend/dist');
 

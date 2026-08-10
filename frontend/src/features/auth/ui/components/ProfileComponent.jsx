@@ -32,7 +32,9 @@ const ProfileComponent = () => {
     const handleAdmin = () => {
         navigate('/admin')
     };
-
+    const handleVendor = () => {
+        navigate("/vendor")
+    }
     return (
         <div className="relative" ref={dropdownRef}>
             {/* Profile Avatar Button */}
@@ -78,7 +80,7 @@ const ProfileComponent = () => {
                         )}
 
                         {user?.role === "vendor" && (
-                            <button className="flex w-full items-center gap-3 px-3 py-2 text-sm font-medium text-indigo-400 hover:bg-indigo-500/10 rounded-lg transition-colors text-left cursor-pointer mt-1 border border-dashed border-indigo-500/30">
+                            <button onClick={() => handleVendor()} className="flex w-full items-center gap-3 px-3 py-2 text-sm font-medium text-indigo-400 hover:bg-indigo-500/10 rounded-lg transition-colors text-left cursor-pointer mt-1 border border-dashed border-indigo-500/30">
                                 <span className="flex h-2 w-2 rounded-full bg-indigo-400"></span>
                                 Vendor Dashboard
                             </button>
