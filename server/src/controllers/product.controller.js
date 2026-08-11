@@ -183,3 +183,59 @@ export const getVendorDashboardStats = async (req, res) => {
         });
     }
 };
+// ==========================================
+// 4. Get Vendor Dashboard KPI Analytics Stats
+// ==========================================
+export const getAllProducts = asyncHandler(async (req, res) => {
+    console.log("Fetching all marketplace products logs...");
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 20;
+    const skip = (page - 1) * limit;
+    // 1. Fetch products with exact nested profile information paths
+    const allProducts = await Product.find()
+        .populate({
+            path: "vendor",
+            select: "shopName status", // Dukan ka naam aur verified status
+            populate: {
+                path: "user",
+                select: "name email" // Owner ka name aur email
+            }
+        })
+        .sort({ createdAt: -1 }) // Naye products sabse pehle dikhenge home page par
+        .limit(limit)
+        .skip(skip)
+    const totalProduct = await Product.countDocuments()
+    // 2. Safe Guard Check
+    if (!allProducts) {
+        return res.status(404).json({
+            success: false,
+            message: "No products found in the marketplace index",
+        });
+    }
+    // 3. Send Standard Structured Response
+    return res.status(200).json({
+        success: true,
+        count: allProducts.length, // Frontend layout calculation ke liye useful hai
+        products: allProducts,
+        total: totalProduct,
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

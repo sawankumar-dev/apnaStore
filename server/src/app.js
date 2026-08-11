@@ -8,6 +8,7 @@ import config from "./config/config.js";
 import userRouter from "./routes/user.routes.js";
 import vendorRouter from "./routes/vendor.routes.js";
 import adminRouter from "./routes/admin.routes.js";
+import productRouter from "./routes/product.routes.js";
 
 const app = express();
 // 1. ES Module mein __dirname ko aise banate hain:
@@ -25,6 +26,7 @@ app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }))
 
 //  Sahi aur Standard Tarika
+app.use("/api/v1", productRouter)
 app.use("/api/v1", userRouter); 
 app.use("/api/v1", vendorRouter); 
 app.use("/api/v1", adminRouter)

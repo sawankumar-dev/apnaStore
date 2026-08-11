@@ -11,7 +11,7 @@ adminRouter.use(isAdmin);
 adminRouter.get("/stats", getAdminDashboardStats)
 adminRouter.get("/requests/pending", getAllPendingRequests)
 adminRouter.post("/requests/action", approveOrRejectVendor)
-adminRouter.get('/users/customers', isAdmin, getAllCustomers);
-adminRouter.get('/users/vendors', isAdmin, getAllVendors);
+adminRouter.get('/users/customers', getAllCustomers);
+adminRouter.get('/users/vendors', getAllVendors);
 
 export default adminRouter;

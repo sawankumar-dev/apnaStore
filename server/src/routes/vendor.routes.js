@@ -21,6 +21,6 @@ vendorRouter.delete("/products/delete/:productId", deleteVendorProduct); // Dyna
 vendorRouter.get("/vendor/dashboard-stats", getVendorDashboardStats);
 // for admin
 vendorRouter.get("/admin/requests", isAdmin, getAllPendingRequests);
-vendorRouter.post("/admin/action",isAdmin, registerVendor);
+// vendorRouter.post("/admin/action",isAdmin, );
 
 export default vendorRouter
