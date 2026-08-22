@@ -48,3 +48,12 @@ export const getAdminDashboardStats = asyncHandler(async (req, res) => {
     }
     return res.status(200).json(new ApiResponse(200, "Dashboard stats fetched successfully", stats))
 })
+
+export const deleteUser = asyncHandler(async (req, res) => {
+    const { userId } =  req.params;
+    const user = await User.findByIdAndDelete(userId);
+    if(!user) {
+        return res.status(404).json(new ApiResponse(404, "User not found"))
+    }
+    return res.status(200).json(new ApiResponse(200, "User created successfully!"))
+})

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllCustomersAction } from '../../state/adminAction';
+import { deleteCustomerAction, getAllCustomersAction } from '../../state/adminAction';
 import { Users, Trash2, Eye, Mail, ShieldAlert, Search } from 'lucide-react'; // Reusable Vector Icons
 
 const UsersList = () => {
@@ -10,8 +10,11 @@ const UsersList = () => {
 
     useEffect(() => {
         dispatch(getAllCustomersAction());
-    }, [dispatch]);
-
+    }, []);
+    const onButtonClicked =  async (id) => {
+        await dispatch(deleteCustomerAction(id))
+        dispatch(getAllCustomersAction())
+    }
     // 🌀 Modern Shimmer/Skeleton Loading View State
     if (isLoading) {
         return (
@@ -87,7 +90,7 @@ const UsersList = () => {
                                     </button>
 
                                     {/* Action: Core Delete Protocol */}
-                                    <button className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-rose-400 hover:text-white bg-rose-500/5 hover:bg-rose-600 border border-rose-500/20 hover:border-rose-600 rounded-lg transition-all duration-200 cursor-pointer active:scale-95 shadow-inner">
+                                    <button type='button' onClick={() => onButtonClicked(user._id)} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-rose-400 hover:text-white bg-rose-500/5 hover:bg-rose-600 border border-rose-500/20 hover:border-rose-600 rounded-lg transition-all duration-200 cursor-pointer active:scale-95 shadow-inner">
                                         <Trash2 className="h-3.5 w-3.5" /> Delete
                                     </button>
                                 </div>

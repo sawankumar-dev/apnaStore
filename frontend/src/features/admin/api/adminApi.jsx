@@ -51,3 +51,12 @@ export const getAllVendorsApi = async () => {
         console.log("All Vendors requests", error)
     }
 }
+// delete single customer
+export const deleteSingleCustomer = async (id) => {
+    try {
+        const response  = await api.delete(`/users/${id}`)
+        return response.data;
+    } catch (error) {
+        console.log("Error in deleting user", error)
+    }
+}

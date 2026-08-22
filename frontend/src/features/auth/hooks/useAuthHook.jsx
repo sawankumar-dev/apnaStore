@@ -20,6 +20,7 @@ export const useAuth = () => {
     };
     const loginFormHook = async (credential) => {
         dispatch(loginUserAction(credential));
+        console.log(credential)
         toast.success("Login successful!");
         reset()
         navigate("/")

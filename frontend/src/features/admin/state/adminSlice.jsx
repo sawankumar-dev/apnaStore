@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { 
     approveOrRejectVendorAction, 
+    deleteCustomerAction, 
     getAllCustomersAction, 
     getAllRequestAction, 
     getAllVendorsAction, 
@@ -118,6 +119,20 @@ const adminSlice = createSlice({
             state.vendors = action.payload;
         })
         .addCase(getAllVendorsAction.rejected, (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload || "Failed to load vendors log";
+        })
+        // ==========================================
+        // 6. Delete single customer 
+        // ==========================================
+        .addCase(deleteCustomerAction.pending, (state) => {
+            state.isLoading = true;
+            state.error = null;
+        })
+        .addCase(deleteCustomerAction.fulfilled, (state) => {
+            state.isLoading = false;
+        })
+        .addCase(deleteCustomerAction.rejected, (state, action) => {
             state.isLoading = false;
             state.error = action.payload || "Failed to load vendors log";
         });

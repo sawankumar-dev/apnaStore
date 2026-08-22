@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { approveOrRejectVendorApi, dashboardStatsApi, getAllCustomersApi, getAllRequest, getAllVendorsApi } from "../api/adminApi";
+import { approveOrRejectVendorApi, dashboardStatsApi, deleteSingleCustomer, getAllCustomersApi, getAllRequest, getAllVendorsApi } from "../api/adminApi";
 
 // Get all Request which is send by users to become vendor
 // ✅ completed
@@ -35,6 +35,7 @@ export const getAllCustomersAction = createAsyncThunk("admin/users", async (_, t
         thunkApi.rejectWithValue(error);
     }
 })
+
 export const getDashboardStatsAction = createAsyncThunk("admin/stats", async (_, thunkApi) => {
     try {
         let res = await dashboardStatsApi();
@@ -43,10 +44,19 @@ export const getDashboardStatsAction = createAsyncThunk("admin/stats", async (_,
         thunkApi.rejectWithValue(error)
     }
 })
+
 export const getAllVendorsAction = createAsyncThunk("admin/vendors", async (_, thunkApi) => {
     try {
         let res = await getAllVendorsApi();
         return res.vendors;
+    } catch (error) {
+        thunkApi.rejectWithValue(error)
+    }
+})
+
+export const deleteCustomerAction = createAsyncThunk("admin/customer", async(id, thunkApi) => {
+    try {
+        let res = await deleteSingleCustomer(id)
     } catch (error) {
         thunkApi.rejectWithValue(error)
     }
