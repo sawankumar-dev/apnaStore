@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShoppingBag, Eye, Store, Sparkles } from 'lucide-react'; // Standard Icons
+import { NavLink } from 'react-router';
 
 const ProductCard = ({ product }) => {
   // Database format ke mutabik variables select karein (Image array ka 0th index uthayein)
@@ -66,12 +67,24 @@ const ProductCard = ({ product }) => {
             )}
           </div>
           
-          <button 
-            disabled={isOutOfStock}
-            className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl transition-all duration-200 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+        {isOutOfStock ? (
+          <button
+            disabled
+            className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-300 bg-slate-950 border border-slate-800 rounded-xl opacity-40 cursor-not-allowed"
           >
-            <Eye className="h-3.5 w-3.5" /> View
+            <Eye className="h-3.5 w-3.5" />
+            View
           </button>
+        ) : (
+          <NavLink to={`/product/${product._id}`}>
+            <button
+              className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-slate-950 hover:bg-slate-800 border border-slate-800 rounded-xl transition-all duration-200 cursor-pointer"
+            >
+              <Eye className="h-3.5 w-3.5" />
+              View
+            </button>
+          </NavLink>
+        )}
         </div>
       </div>
 

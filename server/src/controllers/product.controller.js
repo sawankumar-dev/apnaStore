@@ -184,7 +184,7 @@ export const getVendorDashboardStats = async (req, res) => {
     }
 };
 // ==========================================
-// 4. Get Vendor Dashboard KPI Analytics Stats
+// 4. Get All Products
 // ==========================================
 export const getAllProducts = asyncHandler(async (req, res) => {
     console.log("Fetching all marketplace products logs...");
@@ -220,9 +220,23 @@ export const getAllProducts = asyncHandler(async (req, res) => {
         total: totalProduct,
     });
 });
-
-
-
+ 
+// 5. Get Single Product
+export const getSingleProduct = asyncHandler(async (req, res) => {
+    const { productId } = req.params;
+    const product = await Product.findById(productId)
+    if(!product) {
+        return res.status(404).json({
+            success: false,
+            message: "Product not found",
+        })
+    }
+    return res.status(200).json({
+        success: true,
+        message: "Product fetched successfully!",
+        product
+    })
+})
 
 
 

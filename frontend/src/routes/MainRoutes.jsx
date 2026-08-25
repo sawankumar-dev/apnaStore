@@ -22,6 +22,8 @@ import VendorsList from '../features/admin/ui/pages/VendorsList'
 import UsersList from '../features/admin/ui/pages/UsersList'
 import AddProduct from '../features/vendor/ui/pages/AddProduct'
 import VendorProducts from '../features/vendor/ui/pages/VendorProducts'
+import SingleProductPage from '../features/products/ui/pages/SingleProductPage'
+import { api } from '../config/api'
 
 const MainRoutes = () => {
     const dispatch = useDispatch();
@@ -34,6 +36,10 @@ const MainRoutes = () => {
         }
       })()
     }, [])
+    const singleProductLoader = async ({ params }) => {
+        const response = await api.get(`/product/${params.productId}`)
+        return response.data
+    }
     const router = createBrowserRouter([
         {
             path: "/",
@@ -62,6 +68,11 @@ const MainRoutes = () => {
                         {
                             path: "become-vendor",
                             element: <VendorApplicationForm/>
+                        },
+                        {
+                            path: "product/:productId",
+                            element: <SingleProductPage/>,
+                            loader: singleProductLoader
                         }
                     ]
                 }
@@ -97,7 +108,7 @@ const MainRoutes = () => {
                         {
                             path: "products",
                             element: <VendorProducts/>
-                        }
+                        },
                     ]
                 }
             ]
