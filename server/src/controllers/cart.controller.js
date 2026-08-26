@@ -1,4 +1,4 @@
-import { addToCartService, getMyCartService } from "../service/cart.service.js";
+import { addToCartService, getMyCartService, removeFromCartService } from "../service/cart.service.js";
 import ApiResponse from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
@@ -11,6 +11,13 @@ export const addToCart = asyncHandler(async (req, res) => {
 
 export const getMyCart = asyncHandler(async (req, res) => {
     const userId = req.user._id;
-    const cart = await getMyCartService();
+    const cart = await getMyCartService(userId);
     return res.status(200).json(new ApiResponse(200, "Cart fetched successfully", cart))
+})
+
+export const removeFromCart = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+    const { productId } = req.params;
+    const cart = await removeFromCartService(userId, productId);
+    return res.status(200).json(new ApiResponse(200, "Product removed from cart successfully!", cart))
 })

@@ -50,3 +50,17 @@ export const getMyCartService = async (userId) => {
     }
     return cart;
 }
+
+export const removeFromCartService = async (userId, productId) => {
+    const cart = await Cart.findOne({ user: userId });
+    if(!cart) {
+        throw new Error("Cart not found")
+    }
+    const itemsExists = cart.items.find((item) => item.product.toString() === productId)
+    if(!itemsExists) {
+        throw new Error("Product not found in cart")
+    }
+    cart.items = cart.items.filter((item) => item.product.toString() !== productId)
+    await cart.save();
+    return cart;
+}
