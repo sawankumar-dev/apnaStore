@@ -64,3 +64,37 @@ export const removeFromCartService = async (userId, productId) => {
     await cart.save();
     return cart;
 }
+
+export const updateCartQuantityService = async (userId, productId, action) => {
+    // Cart find karo
+    const cart = await Cart.findOne({ user: userId });
+    if(!cart) {
+        throw new Error("Cart not found")
+    }
+    // product ko find karo cart ke andar
+    const cartItem = cart.items.find((item) => item.product.toString() === productId);
+    if(!cartItem) {
+        throw new Error("Product not found in Cart")
+    }
+    // product find karo
+    const product = await Product.findById(productId);
+    if(!product) {
+        throw new Error("Product not found!")
+    }
+    if(action === "increment") {
+        if(cartItem.quantity >= product.stock) {
+            throw new Error("Not enough stock")
+        }
+        cartItem.quantity += 1;
+    } else if(action === "decrement") {
+        if(cartItem.quantity === 1) {
+            cart.items = cart.items.filter((item) => item.product.toString() !== productId)
+        } else {
+            cartItem.quantity -= 1;
+        }
+    } else {
+        throw new Error("Invalid action")
+    }
+    await cart.save();
+    return cart;
+}
