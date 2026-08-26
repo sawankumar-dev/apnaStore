@@ -24,18 +24,6 @@ import VendorProducts from '../features/vendor/ui/pages/VendorProducts'
 import SingleProductPage from '../features/products/ui/pages/SingleProductPage'
 import { api } from '../config/api'
 const CartPage = lazy(() => import('../features/cart/ui/pages/CartPage')) 
-
-const MainRoutes = () => {
-    const dispatch = useDispatch();
-    useEffect(() => {
-      (() => {
-        try {
-          dispatch(hydrateUserAction())
-        } catch (error) {
-         console.log("error in hydration", error) 
-        }
-      })()
-    }, [])
     const singleProductLoader = async ({ params }) => {
         const response = await api.get(`/product/${params.productId}`)
         return response.data
@@ -96,6 +84,17 @@ const MainRoutes = () => {
         ]
     }
     ]);
+const MainRoutes = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+      (() => {
+        try {
+          dispatch(hydrateUserAction())
+        } catch (error) {
+         console.log("error in hydration", error) 
+        }
+      })()
+    }, [])
 
   return (
     <RouterProvider router={router}/>

@@ -10,6 +10,7 @@ import {
   ShieldCheck,
   Truck,
 } from "lucide-react";
+import { api } from "../../../../config/api";
 
 const SingleProductPage = () => {
   const data = useLoaderData();
@@ -34,7 +35,20 @@ const SingleProductPage = () => {
     month: "long",
     year: "numeric",
   });
-
+  const addToCart = async (productId) => {
+    console.log("I am added to cart")
+    console.log(productId)
+    const data = {
+      productId,
+      quantity: 1
+    }
+    try {
+      const response = await api.post("/cart/", data);
+      console.log("response in SingleProductPage: ", response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <main className="min-h-screen text-white px-4 py-8 md:px-8">
       <div className="mx-auto max-w-6xl">
@@ -172,6 +186,7 @@ const SingleProductPage = () => {
               {/* Add To Cart */}
               <button
                 disabled={isOutOfStock}
+                onClick={() => addToCart(product._id)}
                 className="mt-7 flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-5 py-3.5 text-sm font-bold text-slate-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <ShoppingCart className="h-5 w-5" />
