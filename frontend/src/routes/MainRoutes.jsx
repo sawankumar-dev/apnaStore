@@ -1,7 +1,6 @@
-import React, { lazy, useEffect } from 'react'
+import { lazy, useEffect } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import HomePage from '../shared/ui/pages/HomePage'
-import CartPage from '../shared/ui/pages/CartPage'
 import ProductsPage from '../shared/ui/pages/ProductsPage'
 import ProtectedRoutes from './protected/ProtectedRoutes'
 import LoginPage from '../features/auth/ui/pages/LoginPage'
@@ -24,6 +23,7 @@ import AddProduct from '../features/vendor/ui/pages/AddProduct'
 import VendorProducts from '../features/vendor/ui/pages/VendorProducts'
 import SingleProductPage from '../features/products/ui/pages/SingleProductPage'
 import { api } from '../config/api'
+const CartPage = lazy(() => import('../features/cart/ui/pages/CartPage')) 
 
 const MainRoutes = () => {
     const dispatch = useDispatch();
@@ -40,110 +40,63 @@ const MainRoutes = () => {
         const response = await api.get(`/product/${params.productId}`)
         return response.data
     }
-    const router = createBrowserRouter([
+   const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <ProtectedRoutes />,
+        children: [
         {
-            path: "/",
-            element: <ProtectedRoutes/>,
+            // empty path "" ko hata kar layout ko sidhe children bna diya
+            element: <MainLayout />, 
             children: [
-                {
-                    path: "",
-                    element: <MainLayout/>,
-                    children: [
-                        {
-                            path: "",
-                            element: <HomePage/>
-                        },
-                        {
-                            path: "about",
-                            element: <AboutPage/>
-                        },
-                        {
-                            path: "cart",
-                            element: <CartPage/>
-                        },
-                        {
-                            path: "products",
-                            element: <ProductsPage/>
-                        },
-                        {
-                            path: "become-vendor",
-                            element: <VendorApplicationForm/>
-                        },
-                        {
-                            path: "product/:productId",
-                            element: <SingleProductPage/>,
-                            loader: singleProductLoader
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            path: "/auth",
-            element: <PublicRoutes/>,
-            children: [
-                {
-                    path: "",
-                    element: <LoginPage/>
-                },
-                {
-                    path: "register",
-                    element: <RegisterPage/>
-                }
-            ]
-        },
-        // Vender 
-        {
-            path: '/vendor',
-            element: <VendorProtected/>,
-            children: [
-                {
-                    path: "",
-                    element: <VendorLayout/>,
-                    children: [
-                        {
-                            path: "add-product",
-                            element: <AddProduct/>
-                        },
-                        {
-                            path: "products",
-                            element: <VendorProducts/>
-                        },
-                    ]
-                }
-            ]
-        },
-
-        //Admin
-        {
-            path:"/admin",
-            element:<AdminProtected/>,
-            children:[
-                {
-                    path: "",
-                    element: <AdminLayout/>,
-                    children: [
-                        {
-                          path: "",
-                          element: <Dashboard/>
-                        },
-                        {
-                            path: "vendor-request",
-                            element: <VendorRequestsList/>
-                        },
-                        {
-                            path: "vendors",
-                            element: <VendorsList/>
-                        },
-                        {
-                            path: "users",
-                            element: <UsersList/>
-                        }
-                    ]
-                }
+            { index: true, element: <HomePage /> }, // path: "" ki jagah index: true
+            { path: "about", element: <AboutPage /> },
+            { path: "cart", element: <CartPage /> },
+            { path: "products", element: <ProductsPage /> },
+            { path: "become-vendor", element: <VendorApplicationForm /> },
+            { path: "product/:productId", element: <SingleProductPage />, loader: singleProductLoader }
             ]
         }
-    ])
+        ]
+    },
+    {
+        path: "/auth",
+        element: <PublicRoutes />,
+        children: [
+        { index: true, element: <LoginPage /> }, // path: "" ki jagah index: true
+        { path: "register", element: <RegisterPage /> }
+        ]
+    },
+    {
+        path: '/vendor',
+        element: <VendorProtected />,
+        children: [
+        {
+            element: <VendorLayout />, // Layout se path "" hata diya
+            children: [
+            { path: "add-product", element: <AddProduct /> },
+            { path: "products", element: <VendorProducts /> },
+            ]
+        }
+        ]
+    },
+    {
+        path: "/admin",
+        element: <AdminProtected />,
+        children: [
+        {
+            element: <AdminLayout />, // Layout se path "" hata diya
+            children: [
+            { index: true, element: <Dashboard /> }, // Default admin page
+            { path: "vendor-request", element: <VendorRequestsList /> },
+            { path: "vendors", element: <VendorsList /> },
+            { path: "users", element: <UsersList /> }
+            ]
+        }
+        ]
+    }
+    ]);
+
   return (
     <RouterProvider router={router}/>
   )
