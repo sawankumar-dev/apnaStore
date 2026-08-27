@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { getAllCartAction } from "../../state/cartAction"
+import { deleteCartAction, getAllCartAction, updateQuantity } from "../../state/cartAction"
 import { Plus, Minus, Trash2, ShoppingBag } from "lucide-react" 
 
 const CartPage = () => {
@@ -15,22 +15,36 @@ const CartPage = () => {
   }, [dispatch])
 
   // Increment (Quantity +) handle karne ke liye function
-  const handleIncrement = (productId, currentQuantity) => {
+  const handleIncrement = async (productId, currentQuantity) => {
     console.log("Quantity badhao -> Product ID:", productId, "Current Qty:", currentQuantity)
     // TODO: Yahan apni quantity update karne wali action dispatch karein
+    const data = {
+      id: productId,
+      action: "increment",
+    }
+    await dispatch(updateQuantity(data))
+    dispatch(getAllCartAction())
   }
 
   // Decrement (Quantity -) handle karne ke liye function
-  const handleDecrement = (productId, currentQuantity) => {
+  const handleDecrement = async (productId, currentQuantity) => {
     if (currentQuantity <= 1) return
     console.log("Quantity gatao -> Product ID:", productId, "Current Qty:", currentQuantity)
     // TODO: Yahan apni quantity update karne wali action dispatch karein
+    const data = {
+      id: productId,
+      action: "decrement",
+    }
+    await dispatch(updateQuantity(data))
+    dispatch(getAllCartAction())
   }
 
   // Delete/Remove handle karne ke liye function
-  const handleDelete = (productId) => {
+  const handleDelete = async (productId) => {
     console.log("Item delete karo -> Product ID:", productId)
     // TODO: Yahan apni delete item wali action dispatch karein
+    await dispatch(deleteCartAction(productId))
+    dispatch(getAllCartAction())
   }
 
   if (loading) {

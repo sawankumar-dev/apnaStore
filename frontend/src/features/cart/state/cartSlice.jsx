@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllCartAction } from "./cartAction";
+import { getAllCartAction, deleteCartAction } from "./cartAction";
 const initialState = {
     cart: null,
     isLoading: false,
@@ -21,6 +21,15 @@ export const cartSlice = createSlice({
         .addCase(getAllCartAction.rejected, (state, action) => {
             state.isLoading = false
             state.error = action.error
+        })
+        .addCase(deleteCartAction.pending, (state) => {
+            state.isLoading = true
+        })
+        .addCase(deleteCartAction.fulfilled, (state) => {
+            state.isLoading = false
+        })
+        .addCase(deleteCartAction.rejected, (state) => {
+            state.isLoading = false
         })
     }
 })
