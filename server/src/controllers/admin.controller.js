@@ -21,7 +21,10 @@ export const getAllCustomers = async (req, res) => {
 
 export const getAllVendors = async (req, res) => {
     try {
-        const vendors = await User.find({ role: "vendor" });
+        const vendors = await Vendor.find({ status: "approved" }).populate({
+            path: "user",
+            select: "-password -refreshToken"
+        });
         return res.status(200).json({
             success: true,
             message:"Vendors Fetched successfully.",
