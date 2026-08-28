@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getAllVendorsAction } from "../../state/adminAction"
 import { Store, Trash2, Eye, ShoppingBag, ShieldAlert, MapPin, Phone } from "lucide-react"; // Custom vector glyphs
+import { NavLink } from "react-router";
 
 const VendorsList = () => {
   const dispatch = useDispatch();
@@ -86,9 +87,11 @@ const VendorsList = () => {
                 {/* Controller Module: Action Matrices */}
                 <div className="flex flex-wrap items-center gap-2 lg:self-center self-end shrink-0">
                   {/* Action: View Inventory Store Products */}
-                  <button className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-500 rounded-lg transition-all duration-200 shadow-md shadow-emerald-950/20 cursor-pointer active:scale-95">
-                    <ShoppingBag className="h-3.5 w-3.5" /> Show All Products
-                  </button>
+                  <NavLink to={`/admin/vendor-products/${vendor?._id}`}>
+                    <button className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-500 rounded-lg transition-all duration-200 shadow-md shadow-emerald-950/20 cursor-pointer active:scale-95">
+                      <ShoppingBag className="h-3.5 w-3.5" /> Show All Products
+                    </button>
+                  </NavLink>
 
                   {/* Action: Complete Profile Detailed Inspection */}
                   <button className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-slate-950/40 hover:bg-slate-800 border border-slate-800 rounded-lg transition-colors cursor-pointer active:scale-95">

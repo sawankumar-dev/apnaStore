@@ -6,4 +6,4 @@ const VendorProducts = () => {
   )
 }
 
-export default VendorProducts
+export default VendorProducts 

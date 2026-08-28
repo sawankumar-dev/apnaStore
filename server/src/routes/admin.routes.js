@@ -1,10 +1,11 @@
 import { Router } from "express";
 import { isAdmin, verifyJwt } from "../middlewares/auth.middleware.js";
-import { deleteUser, getAdminDashboardStats, getAllCustomers, getAllVendors } from "../controllers/admin.controller.js";
+import { deleteUser, getAdminDashboardStats, getAllCustomers, getAllVendors, getVendorProducts } from "../controllers/admin.controller.js";
 import { approveOrRejectVendor, getAllPendingRequests } from "../controllers/vendor.controller.js";
 
 const adminRouter = Router();
 
+adminRouter.get("/vendor-products/:vendorId", getVendorProducts)
 adminRouter.use(verifyJwt);
 adminRouter.use(isAdmin);
 

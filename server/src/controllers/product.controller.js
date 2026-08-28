@@ -1,12 +1,19 @@
 import Product from "../models/product.model.js";
 import Vendor from "../models/vendor.model.js";
 import { uploadToImageKit } from "../service/image.service.js";
+import ApiResponse from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 export const createProduct = asyncHandler(async (req, res) => {
     const { title, description, price, category, stock } = req.body;
-    const vendorId = req.user._id;
-
+    // yahan par dikkat hai yahan par tumko vendor ki id leni hai
+    const userId = req.user._id;
+    // find vendor by userid
+    const vendor = await Vendor.findOne({ user:   userId})
+    if(!vendor) {
+        return res.status(403).json(new ApiResponse(403, "You can not create products", null))
+    }
+    const vendorId = vendor._id;
     console.log("--- DEBUG DATA START ---");
     console.log("Body Data:", req.body);
     console.log("Files Data:", req.files);

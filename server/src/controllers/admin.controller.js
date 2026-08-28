@@ -1,3 +1,4 @@
+import Product from "../models/product.model.js";
 import User from "../models/user.model.js";
 import Vendor from "../models/vendor.model.js";
 import ApiResponse from "../utils/apiResponse.js";
@@ -59,4 +60,17 @@ export const deleteUser = asyncHandler(async (req, res) => {
         return res.status(404).json(new ApiResponse(404, "User not found"))
     }
     return res.status(200).json(new ApiResponse(200, "User created successfully!"))
+})
+
+export const getVendorProducts = asyncHandler(async (req, res) => {
+    const { vendorId } = req.params;
+    console.log(vendorId)
+    // es vendor ki id ke sabhi products ko fetch karo and
+    const products = await Product.find({ vendor: vendorId }).populate({
+        path: "vendor",
+    });
+    if(!products) {
+        return res.status(404).json(new ApiResponse(404, "Products not found", products))
+    }
+    return res.status(200).json(new ApiResponse(200, "Products of vendor fetched successfully!", products));
 })

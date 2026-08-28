@@ -15,7 +15,7 @@ const initialState = {
     error: null,
 };
 
-const vendorSlice = createSlice({
+export const vendorSlice = createSlice({
     name: "vendor",
     initialState,
     reducers: {
@@ -112,4 +112,3 @@ const vendorSlice = createSlice({
 });
 
 export const { clearVendorError, setCurrentProduct } = vendorSlice.actions;
-export default vendorSlice.reducer;

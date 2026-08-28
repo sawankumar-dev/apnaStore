@@ -137,11 +137,11 @@ const ProductsPage = () => {
           ))}
         </div>
       )}
-      <div className='flex justify-center gap-2'>
+      {filteredProducts.length >10 &&    <div className='flex justify-center gap-2'>
         <button disabled={page===1} onClick={() => setPage(page - 1)} className='bg-gray-200 px-3 py-1 rounded text-gray-900'>Prev</button>
         <p>{page}</p>
         <button onClick={() => setPage(page + 1)} className='bg-gray-200 px-3 py-1 rounded text-gray-900'>Next</button> 
-      </div>
+      </div>}
     </div>
   );
 };
