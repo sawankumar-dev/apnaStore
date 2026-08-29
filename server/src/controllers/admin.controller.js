@@ -74,3 +74,14 @@ export const getVendorProducts = asyncHandler(async (req, res) => {
     }
     return res.status(200).json(new ApiResponse(200, "Products of vendor fetched successfully!", products));
 })
+export const getVendorDetails = asyncHandler(async (req, res) => {
+    const { vendorId } = req.params;
+    const vendor = await Vendor.findById(vendorId).populate({
+        path: "user",
+        select: "-password -refreshToken"
+    });
+    if(!vendor) {
+        return res.status(404).json(new ApiResponse(404, "Vendor nhi mila", null))
+    }
+    return res.status(200).json(new ApiResponse(200, "Vendor details fetched successfully!", vendor))
+})

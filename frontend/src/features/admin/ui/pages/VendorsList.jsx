@@ -94,9 +94,11 @@ const VendorsList = () => {
                   </NavLink>
 
                   {/* Action: Complete Profile Detailed Inspection */}
-                  <button className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-slate-950/40 hover:bg-slate-800 border border-slate-800 rounded-lg transition-colors cursor-pointer active:scale-95">
-                    <Eye className="h-3.5 w-3.5" /> Show Details
-                  </button>
+                  <NavLink to={`/admin/vendor-details/${vendor?._id}`}>
+                    <button className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-slate-950/40 hover:bg-slate-800 border border-slate-800 rounded-lg transition-colors cursor-pointer active:scale-95">
+                      <Eye className="h-3.5 w-3.5" /> Show Details
+                    </button>
+                  </NavLink>
 
                   {/* Action: Strict Delete Protocol */}
                   <button onClick={() => console.log("This is sawan")} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-rose-400 hover:text-white bg-rose-500/5 hover:bg-rose-600 border border-rose-500/20 hover:border-rose-600 rounded-lg transition-all duration-200 cursor-pointer active:scale-95">

@@ -24,15 +24,21 @@ import VendorProducts from '../features/vendor/ui/pages/VendorProducts'
 import SingleProductPage from '../features/products/ui/pages/SingleProductPage'
 import { api } from '../config/api'
 import VendorProductsView from '../features/admin/ui/pages/VendorProductsView'
+import VendorDetailsPage from '../features/admin/ui/pages/VendorDetailsPage'
 const CartPage = lazy(() => import('../features/cart/ui/pages/CartPage')) 
-    const singleProductLoader = async ({ params }) => {
-        const response = await api.get(`/product/${params.productId}`)
-        return response.data
-    }
-    const vendorProductsLoader = async ({ params }) => {
-        const response = await api.get(`/vendor-products/${params.vendorId}`)
-        return response.data
-    }
+
+const singleProductLoader = async ({ params }) => {
+    const response = await api.get(`/product/${params.productId}`)
+    return response.data
+}
+const vendorProductsLoader = async ({ params }) => {
+    const response = await api.get(`/vendor-products/${params.vendorId}`)
+    return response.data
+}
+const VendorDetailsLoader = async ({ params }) => {
+    const response = await api.get(`/vendor-details/${params.vendorId}`)
+    return response.data
+}
    const router = createBrowserRouter([
     {
         path: "/",
@@ -85,7 +91,8 @@ const CartPage = lazy(() => import('../features/cart/ui/pages/CartPage'))
             { path: "vendor-request", element: <VendorRequestsList /> },
             { path: "vendors", element: <VendorsList /> },
             { path: "users", element: <UsersList /> },
-            { path: "vendor-products/:vendorId",element: <VendorProductsView/>, loader: vendorProductsLoader}
+            { path: "vendor-products/:vendorId",element: <VendorProductsView/>, loader: vendorProductsLoader},
+            { path: "vendor-details/:vendorId", element: <VendorDetailsPage/>, loader: VendorDetailsLoader }
             ]
         }
         ]
