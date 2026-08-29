@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { getAllVendorsAction } from "../../state/adminAction"
 import { Store, Trash2, Eye, ShoppingBag, ShieldAlert, MapPin, Phone } from "lucide-react"; // Custom vector glyphs
 import { NavLink } from "react-router";
+import { api } from "../../../../config/api";
 
 const VendorsList = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,8 @@ const VendorsList = () => {
 
   const onDelete = async (id) => {
     console.log(id)
+    await api.delete(`/delete-vendor/${id}`)
+    dispatch(getAllVendorsAction())
   }
   // 🌀 Modern Shimmer/Skeleton Loading View State
   if (isLoading) {
@@ -101,7 +104,7 @@ const VendorsList = () => {
                   </NavLink>
 
                   {/* Action: Strict Delete Protocol */}
-                  <button onClick={() => console.log("This is sawan")} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-rose-400 hover:text-white bg-rose-500/5 hover:bg-rose-600 border border-rose-500/20 hover:border-rose-600 rounded-lg transition-all duration-200 cursor-pointer active:scale-95">
+                  <button onClick={() => onDelete(vendor._id)} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-rose-400 hover:text-white bg-rose-500/5 hover:bg-rose-600 border border-rose-500/20 hover:border-rose-600 rounded-lg transition-all duration-200 cursor-pointer active:scale-95">
                     <Trash2 className="h-3.5 w-3.5" /> Delete
                   </button>
                 </div>

@@ -85,3 +85,15 @@ export const getVendorDetails = asyncHandler(async (req, res) => {
     }
     return res.status(200).json(new ApiResponse(200, "Vendor details fetched successfully!", vendor))
 })
+export const deleteVendor = asyncHandler(async (req, res) => {
+    const { vendorId } = req.params;
+    const { user: userId } = await Vendor.findById(vendorId);
+    const user = await User.findById(userId)
+    user.role = "customer"
+    const vendor = await Vendor.findByIdAndDelete(vendorId);
+    if(!vendor) {
+        return res.status(404).json(new ApiResponse(404, "Vendor not found", null))
+    }
+    await user.save({ validateBeforeSave: false })
+    return res.status(200).json(new ApiResponse(200, "Vendor delete ho gya", vendor))
+})
