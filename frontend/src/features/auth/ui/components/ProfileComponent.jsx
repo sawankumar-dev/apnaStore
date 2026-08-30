@@ -67,12 +67,6 @@ const ProfileComponent = () => {
                         <button onClick={() => handleProfile()} className="flex w-full items-center gap-3 px-3 py-2 text-sm text-slate-300 hover:bg-slate-800 rounded-lg transition-colors text-left cursor-pointer">
                             <User className="h-4 w-4 text-slate-400" /> My Profile
                         </button>
-                        <button className="flex w-full items-center gap-3 px-3 py-2 text-sm text-slate-300 hover:bg-slate-800 rounded-lg transition-colors text-left cursor-pointer">
-                            <Settings className="h-4 w-4 text-slate-400" /> Settings
-                        </button>
-                        <button className="flex w-full items-center gap-3 px-3 py-2 text-sm text-slate-300 hover:bg-slate-800 rounded-lg transition-colors text-left cursor-pointer">
-                            <CreditCard className="h-4 w-4 text-slate-400" /> Orders
-                        </button>
 
                         {/* 🌟 Dynamic Vendor / Dashboard Button */}
                         {user?.role === "customer" && (
