@@ -35,6 +35,9 @@ const ProfileComponent = () => {
     const handleVendor = () => {
         navigate("/vendor")
     }
+    const handleProfile = () => {
+        navigate("/profile")
+    }
     return (
         <div className="relative" ref={dropdownRef}>
             {/* Profile Avatar Button */}
@@ -61,7 +64,7 @@ const ProfileComponent = () => {
 
                     {/* Menu Links */}
                     <div className="p-1">
-                        <button className="flex w-full items-center gap-3 px-3 py-2 text-sm text-slate-300 hover:bg-slate-800 rounded-lg transition-colors text-left cursor-pointer">
+                        <button onClick={() => handleProfile()} className="flex w-full items-center gap-3 px-3 py-2 text-sm text-slate-300 hover:bg-slate-800 rounded-lg transition-colors text-left cursor-pointer">
                             <User className="h-4 w-4 text-slate-400" /> My Profile
                         </button>
                         <button className="flex w-full items-center gap-3 px-3 py-2 text-sm text-slate-300 hover:bg-slate-800 rounded-lg transition-colors text-left cursor-pointer">

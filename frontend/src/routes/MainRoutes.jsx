@@ -25,6 +25,7 @@ import SingleProductPage from '../features/products/ui/pages/SingleProductPage'
 import { api } from '../config/api'
 import VendorProductsView from '../features/admin/ui/pages/VendorProductsView'
 import VendorDetailsPage from '../features/admin/ui/pages/VendorDetailsPage'
+import ProfilePage from '../features/auth/ui/pages/ProfilePage'
 const CartPage = lazy(() => import('../features/cart/ui/pages/CartPage')) 
 
 const singleProductLoader = async ({ params }) => {
@@ -51,9 +52,10 @@ const VendorDetailsLoader = async ({ params }) => {
             { index: true, element: <HomePage /> }, // path: "" ki jagah index: true
             { path: "about", element: <AboutPage /> },
             { path: "cart", element: <CartPage /> },
+            { path: "profile", element: <ProfilePage/> },
             { path: "products", element: <ProductsPage /> },
             { path: "become-vendor", element: <VendorApplicationForm /> },
-            { path: "product/:productId", element: <SingleProductPage />, loader: singleProductLoader }
+            { path: "product/:productId", element: <SingleProductPage />, loader: singleProductLoader },
             ]
         }
         ]
@@ -63,8 +65,9 @@ const VendorDetailsLoader = async ({ params }) => {
         element: <PublicRoutes />,
         children: [
         { index: true, element: <LoginPage /> }, // path: "" ki jagah index: true
-        { path: "register", element: <RegisterPage /> }
-        ]
+        { path: "register", element: <RegisterPage /> },
+
+        ],
     },
     {
         path: '/vendor',
